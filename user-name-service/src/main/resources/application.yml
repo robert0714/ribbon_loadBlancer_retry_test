@@ -1,0 +1,37 @@
+spring:
+  thymeleaf:
+    enabled: false     # Disable Thymeleaf
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - dummy0
+        - veth.*
+        - enp0s3
+        - lo
+        - eth0
+      preferredNetworks:
+        - 192.168.*.*
+  hateoas: 
+    use-hal-as-default-json-media-type: false
+
+endpoints: 
+  trace:
+    sensitive: false
+  shutdown:
+    enabled: true
+    sensitive: false
+management:
+  security:
+    enabled: false
+  context-path: /manage
+    
+eureka:
+  instance:
+    preferIpAddress: true 
+  client:
+    enabled: true
+    #serviceUrl:
+      #defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://user:password@localhost:8761}/eureka/
+     #defaultZone: http://172.21.11.31:8761/eureka,http://172.21.11.32:8761/eureka
+#外部參數--eureka.client.service-url.default-zone有時是吃不進去的，需要改成駝峰式--eureka.client.serviceUrl.defaultZone

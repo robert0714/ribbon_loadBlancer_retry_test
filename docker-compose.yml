@@ -17,3 +17,68 @@ services:
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - 9411:9411
+  sba:
+    image: robert0714/spring-boot-admin-server:dev
+    container_name: sba
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=8741
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka  
+      
+  eurekasvr:
+    image: robert0714/eurekasvr:dev
+    container_name: eurekasvr
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+  greeting:
+    image: robert0714/user-greeting-service:dev
+    container_name: user-greeting-service
+    network_mode:  "host"
+    depends_on:
+      - "eurekasvr"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3000
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka         
+  name:
+    image: robert0714/user-name-service:dev
+    container_name: user-name-service
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei     
+      - server.port=3001
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka 
+    depends_on:
+      - "eurekasvr"
+  address1:
+    image: robert0714/user-address-service:dev
+    container_name: user-address-service1
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3002
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka 
+    depends_on:
+      - "eurekasvr"
+  address2:
+    image: robert0714/user-address-service:dev
+    container_name: user-address-service2
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3003
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka   
+    depends_on:
+      - "eurekasvr"

@@ -16,17 +16,22 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<artifactId>ribbon_loadBlancer_test-parent-pom</artifactId>
 	</parent>
-
-
-	
-
-
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>${docker-maven-plugin.version}</version>
+				<configuration>					
+					<skip>false</skip>
+					<skipMachine>false</skipMachine>
+					<skipBuild>false</skipBuild>
+					<skipRun>false</skipRun>					
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

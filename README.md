@@ -9,3 +9,23 @@ instance關機程序加入DiscoveryClient.shutdown()，EurekaDiscoveryClientConf
 **https://github.com/spring-cloud/spring-cloud-netflix/issues/1543**
 **https://stackoverflow.com/questions/49232549/programatically-unregister-instance-from-eureka**
 **eureka.client.healthcheck.enabled: true" (Brixton.SR7) #1571**
+
+#  For windows developer　
+windows要先安裝Docker-toolbox 
+*https://download.docker.com/win/stable/DockerToolbox.exe*
+
+eclipse plugins 
+
+*https://www.eclipse.org/community/eclipse_newsletter/2016/july/article2.php*
+
+
+```
+docker-machine create  -virtualbox-memory 4096 -virtualbox-cpu-count 2 default   
+
+# Test URL
+
+http://192.168.99.100:9411/zipkin
+
+http://192.168.99.100:3000/api/user/greet
+
+http://192.168.99.100:8761/

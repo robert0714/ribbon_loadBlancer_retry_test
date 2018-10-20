@@ -3,14 +3,20 @@ server:
   port: 8761
 
 eureka:
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://localhost:8761
-  server:
-    waitTimeInMsWhenSyncEmpty: 0
-  
+    instance:
+          hostname: localhost
+          prefer-ip-address: true
+          preferIpAddress: true
+          
+#    client:
+#        #會影響很多服務使用eureka server辨識load-balancer
+#        registerWithEureka: true
+#        fetchRegistry: true
+#        serviceUrl:
+#          defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://user:password@localhost:8761}/eureka/
+    server:
+        waitTimeInMsWhenSyncEmpty: 0
+        enableSelfPreservation: false # only false..  
 
 #Setting logging levels
 logging:
@@ -22,3 +28,22 @@ logging:
 management:
   security:
      enabled: false
+spring:
+  application:
+    name: discovery-service
+  thymeleaf:
+    enabled: false     # Disable Thymeleaf
+  cloud:
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - dummy0
+        - veth.*
+        - enp0s3
+        - lo
+        - eth0
+      preferredNetworks:
+        - 192.168.*.*
+  hateoas: 
+    use-hal-as-default-json-media-type: false
+ 

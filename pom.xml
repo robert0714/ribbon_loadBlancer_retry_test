@@ -20,6 +20,7 @@
 	</parent>
 	<modules>
 		<module>eurekasvr</module>
+		<module>spring-boot-admin-server</module>
 		<module>user-address-service</module>
 		<module>user-greeting-service</module>
 		<module>user-name-service</module>
@@ -29,6 +30,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Edgware.SR5</spring-cloud.version>
+		<docker.registry.name>robert0714</docker.registry.name>
+		<docker.repository.name>${docker.registry.name}/${project.artifactId}</docker.repository.name>
+		<docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
+		<docker.image.version>dev</docker.image.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -42,9 +47,13 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-        <dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,14 +79,58 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.spotify</groupId>
+				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.2.0</version>
-				<configuration>
-					<baseImage>java</baseImage>
-					<imageName>example</imageName>
+				<version>${docker-maven-plugin.version}</version>
+				<configuration>					
+					<skip>true</skip>
+					<skipMachine>true</skipMachine>
+					<skipBuild>true</skipBuild>
+					<skipRun>true</skipRun>
+					<images>
+						<image>
+							<name>${docker.repository.name}:${docker.image.version}</name>
+							<alias>${project.artifactId}</alias>
+							<build>
+								<from>library/openjdk:8u181-jdk</from>
+								<maintainer>robert0714</maintainer>
+								<assembly>
+									<descriptor>docker-assembly.xml</descriptor>
+								</assembly>
+								<ports>
+									<port>8080</port>
+								</ports>
+								<cmd>
+									<exec>
+										<arg>java</arg>
+										<arg>-jar</arg>
+										<arg>/maven/${project.build.finalName}.jar</arg>
+										<arg>--java.security.egd=file:/dev/./urandom </arg>
+									</exec>
+								</cmd>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+								<net>host</net>
+								<log>
+									<prefix>${project.artifactId}</prefix>
+									<color>cyan</color>
+								</log>
+								<env>
+									<TZ>Asia/Taipei</TZ>
+								</env>
+							</run>
+						</image>
+					</images>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>spring-repo</id>
+			<name>Spring Repository</name>
+			<url>https://repo.spring.io/release</url>
+		</repository>
+	</repositories>
 </project>

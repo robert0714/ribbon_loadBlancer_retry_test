@@ -46,7 +46,10 @@ public class UserGreetingService {
 	RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
+	@Bean
+    public Sampler defaultSampler() {
+        return new AlwaysSampler();
+    }
 	public static void main(String[] args) {
 		SpringApplication.run(UserGreetingService.class, "--spring.application.name=user-greeting-service",
 				"--spring.zipkin.baseUrl: http://localhost:9411/" );

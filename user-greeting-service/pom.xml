@@ -7,22 +7,26 @@
 	<artifactId>user-greeting-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
 	<name>user-greeting-service</name>
 	<description>SpringBoot ribbon demo</description>
-
 	<parent>
 		<groupId>org.robert</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 		<artifactId>ribbon_loadBlancer_test-parent-pom</artifactId>
 	</parent>
- 
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>io.fabric8</groupId>

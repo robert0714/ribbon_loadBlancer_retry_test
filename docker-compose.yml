@@ -17,9 +17,9 @@ services:
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - 9411:9411
-  sba:
-    image: robert0714/spring-boot-admin-server:dev
-    container_name: sba
+  sba2:
+    image: robert0714/spring-boot-admin-server-2:dev
+    container_name: sba2
     network_mode:  "host"
     environment:
       - TZ=Asia/Taipei

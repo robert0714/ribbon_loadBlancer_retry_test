@@ -20,7 +20,7 @@
 	</parent>
 	<modules>
 		<module>eurekasvr</module>
-		<module>spring-boot-admin-server</module>
+		<module>spring-boot-admin-server-2</module>
 		<module>user-address-service</module>
 		<module>user-greeting-service</module>
 		<module>user-name-service</module>

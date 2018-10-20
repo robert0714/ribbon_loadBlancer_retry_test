@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-boot-admin-server</artifactId>
+	<artifactId>spring-boot-admin-server-2</artifactId>
 	<packaging>war</packaging>
 
 	<name>spring-boot-admin-server</name>
@@ -13,13 +14,12 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.5.RELEASE</version>
 	</parent>
-
 	<properties>
-	    <maven.test.skip>true</maven.test.skip>
+		<maven.test.skip>true</maven.test.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.SR1</spring-cloud.version> 
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 		<spring-boot-admin-server.version>2.0.3</spring-boot-admin-server.version>
 		<spring-boot-admin-starter-client.version>2.0.3</spring-boot-admin-starter-client.version>
 		<maven.build.timestamp.format>yyyy-MM-dd-HH-mm</maven.build.timestamp.format>
@@ -39,56 +39,36 @@
 		<docker.image.version>dev</docker.image.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<!-- dependencies used to enable admin server and UI -->
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-server</artifactId>
-			<version>${spring-boot-admin-server.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-server-ui</artifactId>
-			<version>${spring-boot-admin-server.version}</version>
-		</dependency>		 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hazelcast</groupId>
-			<artifactId>hazelcast</artifactId>
-		</dependency>
-		<!--declare the admin server as a client, for self monitoring -->
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<version>${spring-boot-admin-starter-client.version}</version>
-		</dependency>
-		<!--mail notifications -->
-		<!--<dependency> -->
-		<!--<groupId>org.springframework.boot</groupId> -->
-		<!--<artifactId>spring-boot-starter-mail</artifactId> -->
-		<!--</dependency> -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
+	 <dependencies>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <version>${spring-boot-admin-server.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- tag::dependency-eureka[] -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- end::dependency-eureka[] -->
+        <dependency>
+            <groupId>org.jolokia</groupId>
+            <artifactId>jolokia-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -98,8 +78,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		 
-	</dependencies>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -120,36 +99,19 @@
 					<mainClass>com.baeldung.springbootadminserver.SpringBootAdminServerApplication</mainClass>
 					<executable>true</executable>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-						    <goal>build-info</goal>
-							<goal>repackage</goal>
-						</goals>
-						<configuration>
+				 <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                        <configuration>
 							<classifier>exec</classifier>
 						</configuration>
-					</execution>
-				</executions>
-				 
+                    </execution>
+                </executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>			 
+			
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -198,5 +160,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
